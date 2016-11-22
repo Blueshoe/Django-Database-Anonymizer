@@ -1,4 +1,4 @@
-# Django database anonymizer
+# Django Database Anonymizer
 
 Management Command to replace privacy-sensitive data with mock data.
 
