@@ -7,12 +7,13 @@ This is useful when you want to use nearly-real data and relations in your devel
 This approach differs the tool from eg. `django-autofixture`. It is inspired by `django-anonymizer`. 
 
 ## Installation & Requirements
-To use this tool, just copy this django app in your django project.
+To use this tool, just copy this django app in your django project and add it to your `INSTALLED_APPS`.
 
 The package  ```django-bulk-update``` is needed, you can install it via pip:
 ```
 pip install django-bulk-update
 ```
+It is tested in Python 2.7 with Django 1.8
 
 ## Management command
 ```
