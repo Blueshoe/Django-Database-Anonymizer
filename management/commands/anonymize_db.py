@@ -70,7 +70,11 @@ class Command(BaseCommand):
         print("DONE. Replaced {} values in total".format(total_replacements_count))
 
     def _autodiscover_module(self, module_name, app=None):
-        apps_to_search = [app] if app else settings.INSTALLED_APPS
+        apps_to_search = (
+            [app]
+            if app else
+            [x.split(".apps.")[0] for x in settings.INSTALLED_APPS]
+        )
 
         modules = []
         for app in apps_to_search:
