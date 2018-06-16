@@ -4,7 +4,7 @@ import random
 from datetime import datetime
 
 from anonymizer.data import companies as _data_companies
-from data.de import last_names as _data_last_names, first_names as _data_first_names, cities as _data_cities
+from .data.de import last_names as _data_last_names, first_names as _data_first_names, cities as _data_cities
 
 
 def boolean(**kwargs):
