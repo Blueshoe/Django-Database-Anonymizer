@@ -4,7 +4,6 @@ from importlib import import_module
 
 import sys
 import imp as _imp
-from optparse import make_option
 
 from django.conf import settings
 from django.core.management import BaseCommand
@@ -16,15 +15,15 @@ class Command(BaseCommand):
     help = 'This tool replaces real (user-)data of model instances in your database with mock data.'
     modules = None  # List of anonymizers modules. They can be placed in every app
 
-    option_list = BaseCommand.option_list + (
-        make_option(
+    def add_arguments(self, parser):
+        parser.add_argument(
             "-a",
             "--app",
             dest="app",
             help="Only anonymize the given app.",
             metavar="APP"
         ),
-        make_option(
+        parser.add_argument(
             "-m",
             "--model",
             "--models",
@@ -32,22 +31,21 @@ class Command(BaseCommand):
             help="Models to anonymize. Separate multiples by comma.",
             metavar="MODEL"
         ),
-        make_option(
+        parser.add_argument(
             "-b",
             "--batch-size",
             dest="batch_size",
             help="batch size used in the bulk_update of the instances. Depends on the DB machine. Use 500 in vagrant.",
             metavar="BATCH_SIZE"
-        ),
-    )
+        )
 
-    def handle(self, *args, **options):
+    def handle(self, app, models, batch_size, *args, **options):
         models = None
-        if options['models'] is not None:
-            models = [m.strip() for m in options['models'].split(',')]
+        if models is not None:
+            models = [m.strip() for m in models.split(',')]
 
         print('Autodiscovering anonymizers')
-        modules = self._autodiscover_module(ANONYMIZER_MODULE_NAME, app=options['app'])
+        modules = self._autodiscover_module(ANONYMIZER_MODULE_NAME, app=app)
         print('Found anonymizers for {} apps'.format(len(modules)))
         total_replacements_count = 0
         for module in modules:
