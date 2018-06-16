@@ -11,6 +11,10 @@ def boolean(**kwargs):
     return bool(random.getrandbits(1))
 
 
+def full_name(**kwargs):
+    return "%s %s" % (first_name(**kwargs), last_name(**kwargs), )
+
+
 def first_name(**kwargs):
     return random.choice(_data_first_names)
 
