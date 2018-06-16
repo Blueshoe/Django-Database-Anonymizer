@@ -46,28 +46,28 @@ class Command(BaseCommand):
         if options['models'] is not None:
             models = [m.strip() for m in options['models'].split(',')]
 
-        print 'Autodiscovering anonymizers'
+        print('Autodiscovering anonymizers')
         modules = self._autodiscover_module(ANONYMIZER_MODULE_NAME, app=options['app'])
-        print 'Found anonymizers for {} apps'.format(len(modules))
+        print('Found anonymizers for {} apps'.format(len(modules)))
         total_replacements_count = 0
         for module in modules:
-            print '{}:'.format(module.__package__)
+            print('{}:'.format(module.__package__))
             anonymizers = self._get_app_anonymizers(module, models=models)
 
             if len(anonymizers) == 0:
-                print "- No anonymizers or skipped by --app or --model arguments"
+                print("- No anonymizers or skipped by --app or --model arguments")
                 continue
 
             for anonymizer_class_name in anonymizers:
                 anonymizer = getattr(module, anonymizer_class_name)()
-                print '- {}'.format(anonymizer.model.__name__)
-                number_of_replaced_fields = anonymizer.run(options['batch_size'])  # Start the anonymizing process
-                print '-- {} fields, {} model instances, {} total replacements'.format(
+                print('- {}'.format(anonymizer.model.__name__))
+                number_of_replaced_fields = anonymizer.run(batch_size)  # Start the anonymizing process
+                print('-- {} fields, {} model instances, {} total replacements'.format(
                     number_of_replaced_fields[0],
                     number_of_replaced_fields[1],
-                    number_of_replaced_fields[2])
+                    number_of_replaced_fields[2]))
                 total_replacements_count += number_of_replaced_fields[2]
-        print "DONE. Replaced {} values in total".format(total_replacements_count)
+        print("DONE. Replaced {} values in total".format(total_replacements_count))
 
     def _autodiscover_module(self, module_name, app=None):
         apps_to_search = [app] if app else settings.INSTALLED_APPS
@@ -80,7 +80,7 @@ class Command(BaseCommand):
             except AttributeError:
                 continue
             except ImportError:
-                print 'ERROR: Can not find app ' + app
+                print('ERROR: Can not find app ' + app)
                 exit(1)
             try:
                 _imp.find_module(module_name, app_path)

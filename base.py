@@ -12,7 +12,7 @@ class BaseAnonymizer:
             getattr(self, 'model')
             getattr(self, 'attributes')
         except AttributeError:
-            print 'ERROR: Your anonymizer is missing the model or attributes definition!'
+            print('ERROR: Your anonymizer is missing the model or attributes definition!')
             exit(1)
 
     def get_query_set(self):

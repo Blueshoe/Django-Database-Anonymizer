@@ -12,7 +12,6 @@ def boolean(**kwargs):
 
 
 def first_name(**kwargs):
-    print kwargs
     return random.choice(_data_first_names)
 
 
